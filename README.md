@@ -27,6 +27,6 @@ The official web portal for the Anglican Students' Fellowship (ASF), OAUSTECH Br
    - `MONGO_URI`: Your MongoDB Atlas connection string
 
 ---
-develop by SegzyWeb Developer - Ogunniyi Oluwasegun Adebayo
+Develop by SegzyWeb Developer - Ogunniyi Oluwasegun Adebayo
 ---
 © 2026 Anglican Students' Fellowship (ASF), OAUSTECH. Arise, Shine.
