@@ -28,4 +28,5 @@ The official web portal for the Anglican Students' Fellowship (ASF), OAUSTECH Br
 
 ---
 develop by SegzyWeb Developer - Ogunniyi Oluwasegun Adebayo
+---
 © 2026 Anglican Students' Fellowship (ASF), OAUSTECH. Arise, Shine.

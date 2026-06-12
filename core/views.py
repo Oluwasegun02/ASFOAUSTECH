@@ -86,16 +86,22 @@ def share_blog(request, blog_id):
 
 def like_blog(request, blog_id):
     if not request.user.is_authenticated:
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'error': 'Login required'}, status=403)
         messages.warning(request, "Please log in to like posts.")
         return redirect('login')
 
     blog = get_object_or_404(Blog, id=blog_id)
+    action = 'liked'
     if blog.liked_by.filter(id=request.user.id).exists():
         blog.liked_by.remove(request.user)
-        messages.info(request, f"You unliked '{blog.title}'.")
+        action = 'unliked'
     else:
         blog.liked_by.add(request.user)
-        messages.success(request, f"You liked '{blog.title}'!")
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'action': action, 'count': blog.liked_by.count()})
+
     return redirect('blogs')
 
 @login_required
