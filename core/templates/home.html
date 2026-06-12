@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="logo-pair" style="justify-content: center;">
+      <img src="{{ static('core/img/OAUSTECH.png') }}" alt="OAUSTECH logo">
+      <img src="{{ static('core/img/asflogo.png') }}" alt="ASF logo">
+    </div>
+    <p class="kicker">Anglican Students' Fellowship</p>
+    <h1>OAUSTECH Branch</h1>
+    <p class="hero-text">
+      Raising generational leaders grounded in the Word of God and equipped for global impact through spiritual excellence.
+    </p>
+    <div class="button-row">
+      <a class="btn primary" href="{{ url('register') }}">Join the Fellowship</a>
+      <a class="btn outline" href="{{ url('about') }}">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- Weekly Bible Study -->
+<section class="split-card">
+  <img src="{{ static('core/img/ebf05c011d83b656249488be86d0f9c9.jpg') }}" alt="Bible study">
+  <div>
+    <p class="kicker">Every Tuesday at 6PM</p>
+    <h2>Weekly Bible Study</h2>
+    <p>
+      Gather at ASF Faith Tabernacle for teaching, questions, worship, and fellowship that strengthens faith for campus life.
+    </p>
+    <a class="text-link" href="{{ url('events') if current_user else url('login') }}">View events</a>
+  </div>
+</section>
+
+<!-- Prayer Convergence -->
+<section class="split-card reverse">
+  <img src="{{ static('core/img/prayer.jpg') }}" alt="Prayer Meeting">
+  <div>
+    <p class="kicker">Every Friday at 5PM</p>
+    <h2>Prayer Convergence</h2>
+    <p>
+      A power-filled time to seek God's face, intercede for our community, and experience the presence of the Holy Spirit.
+    </p>
+    <a class="text-link" href="{{ url('prayer_requests') if current_user else url('login') }}">Submit a request</a>
+  </div>
+</section>
+
+<!-- Explore Fellowship -->
+<section>
+  <h2 class="section-title">Explore Our Fellowship</h2>
+  <div class="feature-grid">
+    {% for label, text, href, icon in [
+      ("Calendar", "Countdowns and details for worship, study, and outreach.", "events", "fa-calendar-alt"),
+      ("Blogs", "Testimonies and reflections from the ASF family.", "blogs", "fa-blog"),
+      ("Mentors", "Guidance from experienced leaders and alumni.", "mentors", "fa-user-graduate"),
+      ("Resources", "Study guides, podcasts, and discipleship links.", "resources", "fa-book-open")
+    ] %}
+      <a class="feature-card" href="{{ url(href) if current_user or href in ['admin_dashboard'] else url('login') }}">
+        <span class="icon"><i class="fas {{ icon }}"></i></span>
+        <h3>{{ label }}</h3>
+        <p>{{ text }}</p>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Events & Blogs -->
+<section class="two-grid">
+  <div class="content-card">
+    <h2>Upcoming Events</h2>
+    {% for event in events %}
+      <div class="mini-row">
+        {% if event.flyer %}
+          <img src="{{ event.flyer.url }}" alt="" style="width: 40px; height: 40px; border-radius: 8px; object-fit: cover; margin-right: 10px;">
+        {% endif %}
+        <div>
+          <strong>{{ event.title }}</strong>
+          <p>{{ event.location }}</p>
+        </div>
+        <span>{{ event.date }}</span>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="content-card">
+    <h2>Latest Blogs</h2>
+    {% for blog in blogs %}
+      <div class="mini-row">
+        <strong>{{ blog.title }}</strong>
+        <span>{{ blog.author }}</span>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Daily Inspiration -->
+<section class="daily-inspiration">
+  <h2 class="section-title">Daily Inspiration</h2>
+  {% if inspiration %}
+  <blockquote>
+    <em>"{{ inspiration.text }}"</em>
+    <span class="verse">— {{ inspiration.verse }}</span>
+  </blockquote>
+  {% else %}
+  <blockquote>
+    <em>"For where two or three gather in my name, there am I with them."</em>
+    <span class="verse">— Matthew 18:20</span>
+  </blockquote>
+  {% endif %}
+  
+  <div class="social-buttons">
+    <a class="social-btn facebook" href="https://web.facebook.com/profile.php?id=100089044572171" target="_blank">
+      <i class="fab fa-facebook"></i>
+      <div>
+        <strong>Follow us on Facebook</strong>
+        <p>Stay updated with our latest events and testimonies</p>
+      </div>
+    </a>
+    <a class="social-btn tiktok" href="https://www.tiktok.com/@asfoaustech" target="_blank">
+      <i class="fab fa-tiktok"></i>
+      <div>
+        <strong>Watch us on TikTok</strong>
+        <p>Short videos, worship moments, and inspiration</p>
+      </div>
+    </a>
+    <a class="social-btn youtube" href="https://www.youtube.com/@asfoaustech" target="_blank">
+      <i class="fab fa-youtube"></i>
+      <div>
+        <strong>Subscribe on YouTube</strong>
+        <p>Sermons, teachings, and fellowship highlights</p>
+      </div>
+    </a>
+    <a class="social-btn instagram" href="https://www.instagram.com/@asfoaustech" target="_blank">
+      <i class="fab fa-instagram"></i>
+      <div>
+        <strong>Follow us on Instagram</strong>
+        <p>Photos, stories, and campus fellowship life</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+{% endblock %}

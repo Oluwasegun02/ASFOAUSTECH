@@ -1,0 +1,26 @@
+{% extends "admin_shell.html" %}
+{% block admin_title %}System Overview{% endblock %}
+{% block admin_content %}
+<div class="admin-stats-grid">
+  {% for label, value in stats.items() %}
+    <a class="stat-card" href="{{ url('admin_collection', label) }}">
+      <span class="stat-label">{{ label|title }}</span>
+      <span class="stat-value">{{ value }}</span>
+    </a>
+  {% endfor %}
+</div>
+
+<div class="admin-quick-links">
+  <h2>Database Collections</h2>
+  <div class="admin-grid">
+    {% for key, config in collections.items() %}
+      <a class="admin-card" href="{{ url('admin_collection', key) }}">
+        <div class="admin-card-header">
+          <h3>{{ config.title }}</h3>
+        </div>
+        <p>{{ config.subtitle }}</p>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

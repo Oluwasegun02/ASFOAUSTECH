@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-hero blue">
+  <h1>Alumni Network</h1>
+  <p>Our graduates are leaders, innovators, and servants making a difference around the world. Connect with them for mentorship, networking, and inspiration.</p>
+</section>
+
+<section class="alumni-grid">
+  {% for alum in alumni %}
+    <article class="alumni-card">
+      <!-- Avatar -->
+      <div class="avatar-wrap">
+        {% if alum.profile_picture %}
+          <img src="{{ alum.profile_picture.url }}" alt="{{ alum.name }}" class="alumni-avatar">
+        {% else %}
+          <img src="{{ static('core/img/default-avatar.jpg') }}" alt="{{ alum.name }}" class="alumni-avatar">
+        {% endif %}
+      </div>
+
+      <!-- Header -->
+      <div class="card-header">
+        <h2>{{ alum.name }}</h2>
+        <p class="role">{{ alum.title }}</p>
+      </div>
+
+      <!-- Body -->
+      <div class="card-body">
+        <p><strong>Degree:</strong> {{ alum.degree }}</p>
+        <p><strong>Location:</strong> {{ alum.location }}</p>
+        <p>{{ alum.description }}</p>
+        {% if alum.achievements %}
+          <h3 style="margin-top: 1rem; font-size: 0.95rem; color: var(--color-primary);">Key Achievements:</h3>
+          <ul style="margin-bottom: 1.5rem;">
+            {% for achievement in alum.achievements %}
+              <li>{{ achievement }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        <div class="alumni-social-links">
+          {% if alum.linkedin_url %}<a href="{{ alum.linkedin_url }}" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>{% endif %}
+          {% if alum.twitter_url %}<a href="{{ alum.twitter_url }}" target="_blank" aria-label="X (Twitter)"><i class="fab fa-twitter"></i></a>{% endif %}
+          {% if alum.facebook_url %}<a href="{{ alum.facebook_url }}" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>{% endif %}
+          {# Add more social links as needed #}
+        </div>
+      </div>
+    </article>
+  {% else %}
+    <p class="no-alumni">No alumni profiles available yet.</p>
+  {% endfor %}
+</section>
+
+<section class="cta-card">
+  <h2>Are You an Alumni?</h2>
+  <p>Join the alumni network and update your profile to inspire the next generation.</p>
+  <a class="btn primary" href="{{ url('alumni_register') }}">Update Profile</a>
+</section>
+{% endblock %}

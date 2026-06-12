@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-hero center-content hero">
+  <div class="logo-pair" style="justify-content: center;">
+    <img src="{{ static('core/img/OAUSTECH.png') }}" alt="OAUSTECH logo">
+    <img src="{{ static('core/img/asflogo.png') }}" alt="ASF logo">
+  </div>
+  <p class="kicker">Resource Library</p>
+  <h1>Resource Library</h1>
+  <p class="hero-text">Curated resources for spiritual growth and learning.</p>
+</section>
+
+<section class="resource-grid">
+  {% for resource in resources %}
+    <article class="resource-card">
+      <div style="flex-grow: 1;">
+        <p class="type">{{ resource.type }}</p>
+        <h2 style="margin-bottom: 0.5rem;">{{ resource.title }}</h2>
+        <p>{{ resource.description }}</p>
+        <p style="font-size: 0.75rem; color: var(--text-secondary); margin: 1rem 0 5px;">Last updated: {{ resource.updated_at.strftime('%b %d, %Y') }}</p>
+      </div>
+      <a class="btn primary" href="{{ resource.link }}" target="_blank" style="margin-top: 1rem;">Visit Resource</a>
+    </article>
+  {% else %}
+    <p class="no-resources">No resources available yet.</p>
+  {% endfor %}
+</section>
+
+<section class="cta-card">
+  <h2>Suggest a Resource</h2>
+  <p style="margin-bottom: 1.5rem;">Know a resource that could bless others? Share it with us below.</p>
+  
+  <form method="post" action="{{ url('resource_suggest') }}" style="max-width: 500px; margin: 0 auto; text-align: left;">
+    {{ csrf_input }}
+    <div style="display: grid; gap: 10px;">
+      <input name="title" placeholder="Resource Title" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--line);">
+      <input name="type" placeholder="Type (e.g. PDF, Video)" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--line);">
+      <input name="link" type="url" placeholder="Resource Link (URL)" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--line);">
+      <textarea name="description" placeholder="Short Description" rows="3" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--line); font-family: inherit;"></textarea>
+      <button type="submit" class="btn primary">Submit Suggestion</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

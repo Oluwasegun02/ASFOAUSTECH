@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="profile-card">
+  <div class="profile-banner"></div>
+  <div class="profile-body">
+    {% if profile.image %}
+      <img src="{{ profile.image.url }}" alt="Profile" class="avatar big" style="object-fit: cover;">
+    {% else %}
+      <span class="avatar big">{{ (current_user.first_name or current_user.username)[:2] }}</span>
+    {% endif %}
+    <div>
+      <h1>{{ current_user.get_full_name() or current_user.username }}</h1>
+      <p>{{ current_user.email }} - {{ profile.department or "No Department" }}</p>
+      <span class="badge {{ profile.member_type }}">{{ profile.get_member_type_display() }}</span>
+    </div>
+  </div>
+</section>
+<section class="form-card">
+  <h2>Update Profile</h2>
+  <form method="post" enctype="multipart/form-data">
+    {{ csrf_input }}
+    <div style="margin-bottom: 1rem;">
+      <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Profile Picture</label>
+      <input type="file" name="image" accept="image/*">
+    </div>
+    <input name="username" value="{{ current_user.username }}" placeholder="Username">
+    <input name="department" value="{{ profile.department or '' }}" placeholder="Department">
+    <input name="phone_number" value="{{ profile.phone_number or '' }}" placeholder="Phone Number">
+    <textarea name="bio" rows="5" placeholder="About me">{{ profile.bio or "" }}</textarea>
+    <input name="skills" value="{{ profile.skills or '' }}" placeholder="Interests or skills, separated by commas">
+    <input name="website" value="{{ profile.website or '' }}" placeholder="Website or social link">
+    <button class="btn primary">Save Profile</button>
+  </form>
+</section>
+{% endblock %}

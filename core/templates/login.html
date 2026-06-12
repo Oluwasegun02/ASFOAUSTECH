@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-shell">
+  <div class="form-card">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <img src="{{ static('core/img/asflogo.png') }}" alt="ASF" style="height: 60px; margin: 0 auto 1rem;">
+        <h2 style="margin: 0;">Welcome Back</h2>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Sign in to your fellowship account</p>
+    </div>
+    
+    <form method="post">
+      <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+      {% for field in form %}
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div style="color: #ef4444; font-size: 0.8rem; margin-top: 0.25rem;">{{ field.errors[0] }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      
+      <button type="submit" class="btn primary" style="width: 100%;">Sign In</button>
+    </form>
+    
+    <div class="switch">
+      Don't have an account? <a href="{{ url('register') }}">Join the Fellowship</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

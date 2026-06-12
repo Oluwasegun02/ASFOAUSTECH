@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-hero about-entrance center-content hero">
+  <div class="logo-pair" style="justify-content: center;">
+    <img src="{{ static('core/img/OAUSTECH.jpg') }}" alt="OAUSTECH">
+    <img src="{{ static('core/img/asflogo.png') }}" alt="ASF">
+  </div>
+  <p class="kicker">About ASF OAUSTECH</p>
+  <h1>About ASF OAUSTECH</h1>
+  <p class="hero-text">A faith-driven community of students and alumni committed to worship, Scripture, service, mentorship, and campus impact.</p>
+</section>
+
+<section class="centered-content intro-text about-entrance">
+  <div class="container">
+    <h2 class="section-title">Who We Are</h2>
+    <p class="lead">{{ content.history if content else "The Anglican Students’ Fellowship (ASF) OAUSTECH is a vibrant Christian family dedicated to raising leaders." }}</p>
+  </div>
+</section>
+
+<section class="split-card about-entrance">
+  {% if content and content.featured_image %}
+    <img src="{{ content.featured_image.url }}" alt="Welcome">
+  {% else %}
+    <img src="{{ static('core/img/page1.jpg') }}" alt="Welcome">
+  {% endif %}
+  <div>
+    <h2>Our Mission</h2>
+    <p>{{ content.mission if content else "We nurture students who love God deeply and carry Christ into every field." }}</p>
+  </div>
+</section>
+
+<section class="split-card reverse about-entrance">
+  <img src="{{ static('core/img/understanding.jpg') }}" alt="Vision">
+  <div>
+    <h2>Our Vision</h2>
+    <p>{{ content.vision if content else "To be a beacon of light in OAUSTECH, raising generational leaders grounded in the Word." }}</p>
+  </div>
+</section>
+
+<section class="values-section about-entrance">
+  <h2 class="section-title">Core Values</h2>
+  <div class="feature-grid">
+    <div class="feature-card"><h3>The Word</h3><p>Commitment to sound biblical teaching.</p></div>
+    <div class="feature-card"><h3>Prayer</h3><p>Consistency in the place of intercession.</p></div>
+    <div class="feature-card"><h3>Mentorship</h3><p>Guiding the next generation of believers.</p></div>
+    <div class="feature-card"><h3>Excellence</h3><p>Doing all things to the glory of God.</p></div>
+    <div class="feature-card"><h3>Fellowship</h3><p>Building a sincere Christian community.</p></div>
+    <div class="feature-card"><h3>Service</h3><p>Joyful labor in the vineyard of God.</p></div>
+  </div>
+</section>
+
+<section class="about-entrance">
+  <div class="section-header">
+    <h2 class="section-title">Our Leadership</h2>
+    <p>Guided by faith and dedicated to serving the ASF family at OAUSTECH.</p>
+  </div>
+
+  <div class="three-grid">
+    {% for person in leaders %}
+      <article class="leader-card">
+        <div class="card-inner">
+          <!-- Front Side -->
+          <div class="card-front">
+            <div class="avatar-wrap">
+              {% if person.image %}
+                <img src="{{ person.image.url }}" alt="{{ person.name }}">
+              {% else %}
+                <img src="{{ static('core/img/default-avatar.jpg') }}" alt="{{ person.name }}">
+              {% endif %}
+            </div>
+            <h3>{{ person.name }}</h3>
+            <p class="role">{{ person.role }}</p>
+          </div>
+
+          <!-- Back Side -->
+          <div class="card-back">
+            <h3>{{ person.name }}</h3>
+            <p>{{ person.bio }}</p>
+            {% if person.achievements %}
+              <ul class="achievements">
+                {% for item in person.achievements %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            <div class="leader-socials">
+              {% if person.linkedin_url %}<a href="{{ person.linkedin_url }}" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>{% endif %}
+              {% if person.twitter_url %}<a href="{{ person.twitter_url }}" target="_blank" title="X (Twitter)"><i class="fab fa-twitter"></i></a>{% endif %}
+              {% if person.whatsapp_url %}<a href="{{ person.whatsapp_url }}" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>{% endif %}
+              {% if person.facebook_url %}<a href="{{ person.facebook_url }}" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>{% endif %}
+            </div>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="past-excos-section about-entrance">
+  <h2 class="section-title">Past Excos</h2>
+  <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">Honoring those who served before us.</p>
+  
+  {% for tenure, people in grouped_past_leaders.items() %}
+    <div class="tenure-group">
+      <h3 class="tenure-year-title">{{ tenure }}</h3>
+      <div class="exco-slider">
+        {% for person in people %}
+      <article class="leader-card small"> {# small is a custom class for smaller cards #}
+        <div class="card-inner">
+          <!-- Front Side -->
+          <div class="card-front">
+            <div class="avatar-wrap">
+              {% if person.image %}
+                <img src="{{ person.image.url }}" alt="{{ person.name }}">
+              {% else %}
+                <img src="{{ static('core/img/default-avatar.jpg') }}" alt="{{ person.name }}">
+              {% endif %}
+            </div>
+            <h3 style="margin: 5px 0;">{{ person.name }}</h3>
+            <p class="role" style="font-size: 0.8rem;">{{ person.role }}</p>
+            <small class="tenure-label">{{ person.tenure }}</small>
+          </div>
+
+          <!-- Back Side -->
+          <div class="card-back">
+            <h3 style="font-size: 1.1rem; color: white;">{{ person.name }}</h3>
+            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.8);">{{ person.bio }}</p>
+            {% if person.achievements %}
+              <ul class="achievements" style="font-size: 0.8rem; color: rgba(255,255,255,0.9);">
+                {% for item in person.achievements %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            <div class="leader-socials" style="padding-top: 0.5rem; margin-top: auto;">
+              {% if person.linkedin_url %}<a href="{{ person.linkedin_url }}" target="_blank" style="color: white;"><i class="fab fa-linkedin"></i></a>{% endif %}
+              {% if person.twitter_url %}<a href="{{ person.twitter_url }}" target="_blank" style="color: white;"><i class="fab fa-twitter"></i></a>{% endif %}
+              {% if person.whatsapp_url %}<a href="{{ person.whatsapp_url }}" target="_blank" style="color: white;"><i class="fab fa-whatsapp"></i></a>{% endif %}
+              {% if person.facebook_url %}<a href="{{ person.facebook_url }}" target="_blank" style="color: white;"><i class="fab fa-facebook"></i></a>{% endif %}
+            </div>
+          </div>
+        </div>
+      </article>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</section>
+
+{% endblock %}

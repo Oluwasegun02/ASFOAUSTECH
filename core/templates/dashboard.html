@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-hero">
+  <h1 style="text-align: center;">Dashboard</h1>
+  <p style="text-align: center;">Welcome, {{ current_user.first_name or current_user.username }}. Your account is active and ready for fellowship activity.</p>
+</section>
+<section class="stats-band">
+  {% for label, value in stats.items() %}
+    <div><strong>{{ value }}</strong><span>{{ label|replace("_", " ")|title }}</span></div>
+  {% endfor %}
+</section>
+<section class="feature-grid">
+  {% for label, href in [("Events", "events"), ("Blogs", "blogs"), ("Mentors", "mentors"), ("Prayer Requests", "prayer_requests"), ("Resources", "resources"), ("Profile", "profile")] %}
+    <a class="feature-card" href="{{ url(href) }}"><h3>{{ label }}</h3><p>Open {{ label|lower }}.</p></a>
+  {% endfor %}
+</section>
+{% endblock %}

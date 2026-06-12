@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-header">
+  <div><h1>{{ config.title }}</h1><p>{{ config.subtitle }}</p></div>
+  <a class="btn primary" href="{{ url('admin_new', kind) }}">Add New</a>
+</section>
+<div class="table-wrap">
+  <table class="admin-table">
+    <thead><tr>{% for field in config.fields %}<th>{{ field|replace("_", " ")|title }}</th>{% endfor %}<th>Actions</th></tr></thead>
+    <tbody>
+      {% for item in items %}
+        <tr>
+          {% for field in config.fields %}
+            <td>{{ "••••••" if field == "password" and item[field] else item[field] }}</td>
+          {% endfor %}
+          <td class="table-actions">
+            <a href="{{ url('admin_edit', kind, item.id) }}">Edit</a>
+            <form method="post" action="{{ url('admin_delete', kind, item.id) }}" onsubmit="return confirm('Delete this item?')">
+              {{ csrf_input }}
+              <button>Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

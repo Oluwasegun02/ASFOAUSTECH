@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-header">
+  <div><h1>{{ "Edit" if item else "Create" }} {{ config.title }}</h1><p>{{ config.subtitle }}</p></div>
+  <a class="btn outline" href="{{ url('admin_collection', kind) }}">Back</a>
+</section>
+<section class="form-card">
+  <form method="post">
+    {{ csrf_input }}
+    {% for field in config.fields %}
+      {% set value = item[field] or "" %}
+      <label>
+        <span>{{ field|replace("_", " ")|title }}</span>
+        {% if field in ["description", "content", "bio", "message", "request"] %}
+          <textarea name="{{ field }}" rows="6">{{ value }}</textarea>
+        {% elif field == "password" %}
+          <input name="{{ field }}" type="password" placeholder="{{ 'Leave blank to keep current password' if item else 'Password' }}">
+        {% else %}
+          <input name="{{ field }}" value="{{ value }}">
+        {% endif %}
+      </label>
+    {% endfor %}
+    <button class="btn primary">Save</button>
+  </form>
+</section>
+{% endblock %}

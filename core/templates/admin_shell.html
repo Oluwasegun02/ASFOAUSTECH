@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="admin-shell">
+  <aside class="admin-sidebar">
+    <a class="admin-brand" href="{{ url('admin_dashboard') }}">
+      <img src="{{ static('core/img/asflogo.jpg') }}" alt="ASF">
+      <span><strong>ASF Console</strong><small>{{ current_admin.name if current_admin else "Staff access" }}</small></span>
+    </a>
+    <nav class="admin-side-nav">
+      <a class="{{ 'active' if not kind else '' }}" href="{{ url('admin_dashboard') }}"><span class="nav-icon">📊</span> Overview</a>
+      {% for key, section in collections.items() %}
+        <a class="{{ 'active' if kind == key else '' }}" href="{{ url('admin_collection', key) }}">
+          <span class="nav-icon">📁</span> {{ section.title }}
+        </a>
+      {% endfor %}
+    </nav>
+  </aside>
+  <div class="admin-workspace">
+    <div class="admin-topbar">
+      <div>
+        <p class="kicker">Management Console</p>
+        <h1>{% block admin_title %}Console{% endblock %}</h1>
+      </div>
+      <div class="button-row">
+        <a class="btn outline small" href="{{ url('home') }}" target="_blank">View Site</a>
+        <a class="btn primary small" href="{{ url('admin_logout') }}">Logout</a>
+      </div>
+    </div>
+    {% block admin_content %}{% endblock %}
+  </div>
+</section>
+{% endblock %}

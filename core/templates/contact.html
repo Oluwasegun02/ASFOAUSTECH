@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Hero -->
+<section class="page-hero blue">
+  <div class="logo-pair" style="justify-content: center;">
+    <img src="{{ static('core/img/asflogo.png') }}" alt="ASF logo">
+  </div>
+  <h1>Get in Touch</h1>
+  <p>We’d love to hear from you! Whether you have questions, want to join our fellowship, or need prayer support, reach out to us.</p>
+</section>
+
+<!-- Contact Form + Info -->
+<div class="two-grid align-start">
+  <!-- Form -->
+  <section class="form-card">
+    <h2>Send Us a Message</h2>
+    <form method="post">
+      {{ csrf_input }}
+      <input name="name" placeholder="Your Name" required>
+      <input name="email" type="email" placeholder="Email Address" required>
+      <input name="subject" placeholder="Subject" required>
+      <textarea name="message" rows="6" placeholder="Your Message..." required></textarea>
+      <button class="btn primary">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Info -->
+  <aside class="content-card">
+    <h2>Contact Information</h2>
+    <p><strong>Location:</strong> Olusegun Agagu University of Science and Technology, Okitipupa, Ondo State, Nigeria</p>
+    <p><strong>Email:</strong> <a href="mailto:asfoaustech@gmail.com">asfoaustech@gmail.com</a></p>
+    <p><strong>Phone:</strong> +234 810 555 3679</p>
+
+    <h2>Fellowship Times</h2>
+    <div class="mini-row"><strong>Sunday Worship</strong><span>8:00 AM</span></div>
+    <div class="mini-row"><strong>Bible Study</strong><span>Tuesday 6:00 PM</span></div>
+    <div class="mini-row"><strong>Prayer Meeting</strong><span>Friday 5:00 PM</span></div>
+    <div class="mini-row"><strong>Unit Meetings</strong><span>Saturday</span></div>
+
+    <h2>Follow Us</h2>
+    <p>Stay connected and updated with our latest events, testimonies, and fellowship activities.</p>
+    <div class="social-links">
+      <a href="https://web.facebook.com/profile.php?id=100089044572171">Facebook</a>
+      <a href="https://www.tiktok.com/@asfoaustech">TikTok</a>
+    </div>
+  </aside>
+</div>
+
+<!-- Map -->
+<section class="map-card">
+  <h2>Our Location</h2>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.865910609315!2d4.770933974476045!3d6.281358993707534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10408544f8843513%3A0x6334f5979c37951a!2sOlusegun%20Agagu%20University%20of%20Science%20and%20Technology%20(OAUSTECH)!5e0!3m2!1sen!2sng!4v1718010000000!5m2!1sen!2sng"
+          width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  <a class="btn outline" href="https://maps.google.com?q=OAUSTECH,Okitipupa">Open in Maps</a>
+</section>
+
+{% endblock %}

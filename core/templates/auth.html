@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="auth-shell {{ 'reverse' if mode == 'register' else '' }}">
+  <div class="auth-copy {{ 'admin-theme' if mode == 'admin' else '' }}">
+    <p class="kicker">{{ "Admin Access" if mode == "admin" else "Member Portal" }}</p>
+    <h1>{{ "Create your fellowship account" if mode == "register" else "Welcome back" }}</h1>
+    <p>Sign in to access events, blogs, mentors, prayer requests, resources, profile tools, and the fellowship dashboard.</p>
+  </div>
+  <div class="form-card">
+    <h2>{{ "Register" if mode == "register" else "Sign In" }}</h2>
+    <form method="post">
+      {{ csrf_input }}
+      {% if mode == "register" %}
+        <input name="name" placeholder="Full name" required>
+      {% endif %}
+      <input name="email" type="email" placeholder="Email address" required>
+      <input name="password" type="password" placeholder="Password" required>
+      {% if mode == "register" %}
+        <select name="status"><option value="member">Member</option><option value="alumni">Alumni</option></select>
+        <select name="memberType"><option value="onsite">Onsite</option><option value="online">Online</option><option value="hybrid">Hybrid</option></select>
+        <select name="level"><option value="undergraduate">Undergraduate</option><option value="aspirant">Aspirant</option><option value="graduate">Graduate</option></select>
+        <input name="department" placeholder="Department">
+        <input name="referral" placeholder="How did you hear about ASF?">
+      {% endif %}
+      <button class="btn primary">{{ "Create Account" if mode == "register" else "Sign In" }}</button>
+    </form>
+    {% if mode == "login" %}
+      <p class="switch">New here? <a href="{{ url('register') }}">Create an account</a></p>
+    {% elif mode == "register" %}
+      <p class="switch">Already registered? <a href="{{ url('login') }}">Sign in</a></p>
+    {% else %}
+      <p class="switch">Default admin: <code>admin@asfoaustech.local</code> / <code>admin12345</code></p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

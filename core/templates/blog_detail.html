@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-hero center-content hero">
+  {% if blog.image %}
+    <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="blog-detail-featured-image">
+  {% endif %}
+  <p class="kicker">{{ blog.category }}</p>
+  <h1>{{ blog.title }}</h1>
+  <p class="hero-text">By {{ blog.author }} • {{ blog.date.strftime('%b %d, %Y') }}</p>
+</section>
+
+<section class="blog-detail-content">
+  <div class="blog-content-body">
+    {{ blog.content|safe }}
+  </div>
+
+  <div class="blog-actions-detail">
+    <form method="post" action="{{ url('like_blog', blog_id=blog.id) }}" style="display: inline;">
+      {{ csrf_input }}
+      <button type="submit" class="btn outline small" style="border: none; background: transparent; color: var(--text-main); cursor: pointer;">
+        👍 {{ blog.liked_by.count() }} likes
+      </button>
+    </form>
+  </div>
+
+  <div class="comments-section">
+    <h2>Comments ({{ comments.count() }})</h2>
+    {% for comment in comments %}
+      <div class="comment-item">
+        <strong>{{ comment.user.username }}</strong>
+        <p>{{ comment.text }}</p>
+        <small style="color: var(--text-secondary);">{{ comment.created_at.strftime('%b %d, %I:%M %p') }}</small>
+      </div>
+    {% else %}
+      <p class="no-comments">No comments yet. Be the first to share your thoughts!</p>
+    {% endfor %}
+    
+    {% if current_user %}
+      <form method="post" action="{{ url('comment_blog', blog_id=blog.id) }}" class="comment-form">
+        {{ csrf_input }}
+        {{ comment_form }}
+        <button class="btn primary small" style="margin-top: 0.5rem; width: auto;">Add Comment</button>
+      </form>
+    {% else %}
+      <p style="text-align: center; margin-top: 2rem; color: var(--text-secondary);">
+        <a href="{{ url('login') }}" class="text-link">Log in</a> to leave a comment.
+      </p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

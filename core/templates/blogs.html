@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-hero blue">
+  <h1 >Blogs & News</h1>
+  <p>Share your faith journey and read inspiring stories from the ASF family.</p>
+</section>
+
+<nav class="filter-bar">
+  <a href="{{ url('blogs') }}" class="{{ 'active' if not selected_category else '' }}">All</a>
+  {% for cat in categories %}
+    <a href="{{ url('blogs') }}?category={{ cat }}" class="{{ 'active' if selected_category == cat else '' }}">{{ cat }}</a>
+  {% endfor %}
+</nav>
+
+<section class="blog-list">
+  {% for blog in blogs %}
+    <article class="blog-card">
+      {% if blog.image %}
+        <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="blog-featured-image">
+      {% endif %}
+      <h2 style="margin-bottom: 0.5rem;"><a href="{{ url('blog_detail', blog_id=blog.id) }}" style="color: inherit;">{{ blog.title }}</a></h2>
+      <p class="meta">By {{ blog.author }} • {{ blog.date.strftime('%b %d, %Y') if blog.date.strftime else blog.date }}</p>
+      <div class="blog-content-preview">
+        {{ blog.excerpt }}
+      </div>
+      <div class="blog-actions">
+        <form method="post" action="{{ url('like_blog', blog_id=blog.id) }}" style="display: inline;">
+          {{ csrf_input }}
+          <button type="submit" class="btn outline small" style="border: none; background: transparent; color: var(--text-main); cursor: pointer;">
+            👍 {{ blog.liked_by.count() }} likes
+          </button>
+        </form>
+        <a href="{{ url('blog_detail', blog_id=blog.id) }}" class="btn outline small">Read More</a>
+      </div>
+    </article>
+  {% else %}
+    <p class="no-blogs">No blog posts yet. Be the first to share your story!</p>
+  {% endfor %}
+</section>
+{% endblock %}

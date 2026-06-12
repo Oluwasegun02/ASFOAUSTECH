@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title or site_name }}</title>
+  <link rel="stylesheet" href="{{ static('core/css/app.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script>
+    // Prevent FOUC (Flash of Unstyled Content) by setting theme early
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav-wrap">
+      <a class="brand" href="{{ url('home') }}">
+        <div class="brand-logos"> {# Centered logos on mobile #}
+          <img src="{{ static('core/img/OAUSTECH.png') }}" alt="OAUSTECH" class="brand-logo">
+          <img src="{{ static('core/img/asflogo.png') }}" alt="ASF" class="brand-logo">
+          <div class="brand-text">
+            <strong>ASF OAUSTECH</strong>
+            <small>Tabernacle of Faith Branch</small>
+          </div>
+        </div>
+      </a>
+      <button class="menu-button" id="menu-toggle" data-menu-toggle aria-label="Toggle navigation">
+        <span class="hamburger-icon"></span>
+        <span class="hamburger-icon"></span>
+        <span class="hamburger-icon"></span>
+      </button>
+      <div class="nav-links" data-menu>
+        <a href="{{ url('home') }}">Home</a>
+        <a href="{{ url('about') }}">About</a>
+        {% if current_user %}
+          <a href="{{ url('events') }}">Events</a>
+          <a href="{{ url('blogs') }}">Blogs</a>
+          <a href="{{ url('mentors') }}">Mentors</a>
+          <a href="{{ url('resources') }}">Resources</a>
+          <a href="{{ url('alumni') }}">Alumni</a>
+          <a href="{{ url('prayer_requests') }}">Prayer</a>
+          <a href="{{ url('profile') }}" class="nav-profile-link {% if new_notification %}pulse{% endif %}" title="View Profile">
+            {% if current_user.profile and current_user.profile.image %}
+              <img src="{{ current_user.profile.image.url }}" alt="Profile" class="nav-user-icon">
+            {% else %}
+              <span class="nav-user-initials">{{ current_user.username[:1]|upper }}</span>
+            {% endif %}
+          </a>
+          <a href="{{ url('logout') }}">Logout</a>
+        {% else %}
+          <a href="{{ url('contact') }}">Contact</a>
+          <a href="{{ url('login') }}">Login</a>
+          <a href="{{ url('register') }}">Sign Up</a>
+        {% endif %}
+      </div>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">🌓</button>
+    </nav>
+  </header>
+  <main class="main-wrap">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col brand-col">
+        <div class="footer-brand">
+          <img src="{{ static('core/img/OAUSTECH.png') }}" alt="OAUSTECH" class="footer-logo">
+          <img src="{{ static('core/img/asflogo.png') }}" alt="ASF" class="footer-logo">
+          <div class="brand-text">
+            <strong>ASF OAUSTECH</strong>
+            <small>Arise, Shine</small>
+          </div>
+        </div>
+        <p>A student fellowship dedicated to worship, discipleship, and excellence in the Church of Nigeria (Anglican Communion).</p>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <nav class="footer-links">
+          <a href="{{ url('events') }}">Events</a>
+          <a href="{{ url('blogs') }}">Blog</a>
+          <a href="{{ url('resources') }}">Study Material</a>
+          <a href="{{ url('mentors') }}">Mentorship</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <nav class="footer-links">
+          <a href="{{ url('about') }}">About Us</a>
+          <a href="{{ url('contact') }}">Get in Touch</a>
+          <a href="mailto:asfoaustech@gmail.com">Email Us</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4>Socials</h4>
+        <div class="social-links">
+          <a href="https://web.facebook.com/profile.php?id=100089044572171"  target="_blank">Facebook</a>
+          <a href="https://www.tiktok.com/@asfoaustech"  target="_blank">TikTok</a>
+          <a href="https://www.youtube.com/@asfoaustech"  target="_blank">YouTube</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Anglican Students' Fellowship (ASF), OAUSTECH Branch. Arise, Shine.</p>
+    </div>
+  </footer>
+  <script src="{{ static('core/js/app.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const navLinks = document.querySelectorAll('.nav-links a');
+      const currentPath = window.location.pathname;
+
+      navLinks.forEach(link => {
+        // Check if the link's href matches the current path
+        if (link.getAttribute('href') === currentPath) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

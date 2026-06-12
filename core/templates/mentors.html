@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-hero blue">
+  <h1>Our Mentors</h1>
+  <p>Connect with experienced leaders who guide and inspire the next generation of ASF members.</p>
+</section>
+
+<section class="mentor-grid">
+  {% for mentor in mentors %}
+    <article class="mentor-card">
+      <div class="card-header">
+        {% if mentor.image %}
+          <img src="{{ mentor.image.url }}" alt="{{ mentor.name }}" class="mentor-avatar">
+        {% else %}
+          <img src="{{ static('core/img/default-avatar.jpg') }}" alt="{{ mentor.name }}" class="mentor-avatar">
+        {% endif %}
+        <h2>{{ mentor.name }}</h2>
+        <p class="specialization">{{ mentor.role }}</p>
+      </div>
+      <div class="card-body">
+        <p>{{ mentor.bio }}</p>
+        {% if mentor.achievements %}
+          <h3 style="font-size: 1rem; margin-top: 1rem; color: var(--text-main);">Key Achievements:</h3>
+          <ul>
+            {% for item in mentor.achievements %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      <div class="mentor-socials">
+        {% if mentor.linkedin_url %}<a href="{{ mentor.linkedin_url }}" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>{% endif %}
+        {% if mentor.twitter_url %}<a href="{{ mentor.twitter_url }}" target="_blank" title="X (Twitter)"><i class="fab fa-twitter"></i></a>{% endif %}
+        {% if mentor.facebook_url %}<a href="{{ mentor.facebook_url }}" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>{% endif %}
+        {% if mentor.whatsapp_url %}<a href="{{ mentor.whatsapp_url }}" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>{% endif %}
+        {% if mentor.email %}<a href="mailto:{{ mentor.email }}" target="_blank" title="Email"><i class="fas fa-envelope"></i></a>{% endif %}
+      </div>
+    </article>
+  {% else %}
+    <p class="no-mentors">No mentors available yet. Check back soon!</p>
+  {% endfor %}
+</section>
+{% endblock %}

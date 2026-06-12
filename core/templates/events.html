@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-hero blue">
+  <h1>Events</h1>
+  <p>Stay connected with upcoming fellowship activities</p>
+</section>
+
+<section class="event-list">
+  {% for event in events %}
+    <article class="event-card">
+      {% if event.flyer %}
+        <div class="event-flyer-wrap">
+          <img src="{{ event.flyer.url }}" alt="{{ event.title }}" class="event-flyer">
+        </div>
+      {% endif %}
+      <div class="event-header">
+        <h2>{{ event.title }}</h2>
+        <p class="desc">{{ event.description }}</p>
+      </div>
+      <div class="event-meta">
+        <p>📅 {{ event.date.strftime('%A, %B %d, %Y') if event.date.strftime else event.date }}</p>
+        <p>⏰ {{ event.time }}</p>
+        <p>📍 {{ event.location }}</p>
+        <p>👥 {{ event.registered_count }} / {{ event.capacity }} registered</p>
+      </div>
+      <div class="event-status">
+        {% if event.is_registered %}
+          <span class="status success">✅ Registered</span>
+        {% else %}
+          <form class="ajax-form event-reg-form" method="post" action="{{ url('register_event', event_id=event.id) }}">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <button type="submit" class="btn register">🔴 Register Now</button>
+          </form>
+        {% endif %}
+      </div>
+      <div class="event-footer">
+        <small>TIME REMAINING: {{ event.remaining_time }}</small>
+      </div>
+    </article>
+  {% else %}
+    <p class="no-events">No upcoming events. Check back soon!</p>
+  {% endfor %}
+</section>
+{% endblock %}

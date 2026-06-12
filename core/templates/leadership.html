@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<script src="https://cdn.tailwindcss.com"></script>
+<div class="bg-gray-50 py-16 px-6">
+    <div class="max-w-7xl mx-auto text-center">
+        <h1 class="text-4xl font-extrabold text-blue-900 mb-4 uppercase tracking-widest">Our Leadership</h1>
+        <div class="w-24 h-1 bg-blue-600 mx-auto mb-12"></div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {% for leader in leaders %}
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 transition duration-300">
+                <div class="h-80 overflow-hidden">
+                {% if leader.image %}
+                    <img src="{{ leader.image.url }}" alt="{{ leader.name }}" class="w-full h-full object-cover object-top">
+                {% else %}
+                    <img src="{{ static('core/img/default-avatar.jpg') }}" alt="{{ leader.name }}" class="w-full h-full object-cover object-top">
+                {% endif %}
+                </div>
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-gray-800">{{ leader.name }}</h3>
+                    <p class="text-blue-600 font-semibold mb-4">{{ leader.role }}</p>
+                    <p class="text-gray-600 leading-relaxed text-sm">
+                        {{ leader.bio }}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

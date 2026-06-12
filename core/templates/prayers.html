@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="min-h-screen bg-blue-50 py-12 px-4">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+    
+    <!-- Submit Section -->
+    <div class="bg-white shadow-2xl rounded-3xl p-10 h-fit">
+      <h2 class="text-3xl font-bold text-blue-900 mb-8 italic">Submit a Prayer Request</h2>
+      
+      {% if messages %}
+        {% for message in messages %}
+          <div class="mb-6 p-4 bg-green-100 text-green-700 rounded-lg text-center font-medium">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="POST" class="space-y-6">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+        <div class="flex items-center">
+          <input type="checkbox" name="anonymous" id="anonymous" class="w-5 h-5 text-blue-600">
+          <label for="anonymous" class="ml-3 text-gray-600">Submit anonymously</label>
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-bold mb-2">Category</label>
+          <select name="category" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none">
+            {% for category in ["Prayer", "Health", "Guidance", "Ministry", "Family", "Financial", "Spiritual Growth", "Other"] %}
+              <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-bold mb-2">Your Prayer Request</label>
+          <textarea name="request" rows="5" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-800 transition transform hover:scale-[1.02]">
+          Submit Request
+        </button>
+      </form>
+    </div>
+
+    <!-- Prayer Wall Section -->
+    <div class="space-y-6">
+      <h2 class="text-3xl font-bold text-blue-900 italic">Prayer Wall</h2>
+      <p class="text-gray-600 mb-6">Join your faith with others in the fellowship community.</p>
+      
+      <div class="space-y-4 max-h-[800px] overflow-y-auto pr-2">
+        {% for item in items %}
+        <div class="bg-white p-6 rounded-2xl shadow-md border-l-4 border-blue-600 transition-all hover:shadow-lg">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="font-bold text-gray-800">{{ item.author }}</h3>
+            <span class="text-xs text-gray-400">{{ item.created_at.strftime('%b %d, %Y') }}</span>
+          </div>
+          <p class="text-gray-600 text-sm mb-4 italic leading-relaxed">"{{ item.request }}"</p>
+          <div class="flex items-center justify-between pt-2 border-t border-gray-50">
+            <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+              {{ item.prayer_count or 0 }} prayers
+            </span>
+            <form method="post" action="{{ url('pray', item.id) }}">
+              <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+              <button type="submit" class="text-sm font-bold text-blue-900 hover:text-blue-700 flex items-center gap-1 transition-colors">
+                🙏 I prayed
+              </button>
+            </form>
+          </div>
+        </div>
+        {% else %}
+        <div class="text-center py-20 bg-white rounded-2xl shadow-sm italic text-gray-400">
+          The wall is quiet. Be the first to share a public request.
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

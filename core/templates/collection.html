@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-hero">
+  <h1>{{ config.title }}</h1>
+  <p>{{ config.subtitle }}</p>
+</section>
+<div class="card-list">
+  {% for item in items %}
+    <article class="content-card item-card">
+      {% if kind == "blogs" and item.image %}
+        <img class="item-image" src="{{ static('core/img/' ~ item.image) }}" alt="{{ item.title }}">
+      {% endif %}
+      <h2>{{ item[config.primary] }}</h2>
+      {% for field in config.fields %}
+        {% if field != config.primary and item[field] %}
+          <p><strong>{{ field|replace("_", " ")|title }}:</strong> {{ item[field] }}</p>
+        {% endif %}
+      {% endfor %}
+      {% if item.link %}<a class="btn outline small" href="{{ item.link }}">Open Resource</a>{% endif %}
+    </article>
+  {% else %}
+    <section class="content-card"><p>No records yet.</p></section>
+  {% endfor %}
+</div>
+{% endblock %}
