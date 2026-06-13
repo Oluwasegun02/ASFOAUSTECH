@@ -8,6 +8,7 @@
   }
   .blog-content-body {
     text-align: justify;
+    text-justify: inter-word;
     line-height: 1.8;
     font-size: 1.15rem;
     color: var(--text-main);
@@ -31,6 +32,14 @@
     display: block;
   }
   @media (max-width: 768px) {
+    .page-hero {
+      padding: 3rem 1rem 1.5rem;
+      text-align: center;
+    }
+    .blog-detail-featured-image {
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
     .blog-detail-content {
       padding: 1.5rem 1rem;
     }
@@ -41,11 +50,11 @@
     }
     .page-hero h1 {
       font-size: 1.8rem;
-      padding: 0 1rem;
+      line-height: 1.3;
     }
   }
 </style>
-<section class="page-hero">
+<section class="page-hero" style="text-align: center; max-width: 900px; margin: 0 auto;">
   {% if blog.image %}
     <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="blog-detail-featured-image">
   {% endif %}
