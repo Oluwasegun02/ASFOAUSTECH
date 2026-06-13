@@ -4,11 +4,12 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from .env file
-try:
-    from dotenv import load_dotenv
-    load_dotenv(BASE_DIR / ".env")
-except ImportError:
-    pass
+if os.path.exists(BASE_DIR / ".env"): # Only try loading .env if it exists (local development)
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(BASE_DIR / ".env")
+    except ImportError:
+        pass
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-asfoaustech-local-dev-key")
 # Default to True for local development
