@@ -8,6 +8,11 @@ def url(view_name, *args, **kwargs):
 
 
 def environment(**options):
+    # Django passes 'context_processors' and 'debug' into this function, 
+    # but the Jinja2 Environment constructor does not accept them as arguments.
+    options.pop('context_processors', None)
+    options.pop('debug', None)
+    
     env = Environment(**options)
     env.globals.update(
         {

@@ -1,12 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="page-hero center-content hero">
+<style>
+  .blog-detail-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+  .blog-content-body {
+    text-align: justify;
+    line-height: 1.8;
+    font-size: 1.15rem;
+    color: var(--text-main);
+    margin-bottom: 3rem;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+  .blog-content-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+  }
+  .blog-detail-featured-image {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  @media (max-width: 768px) {
+    .blog-detail-content {
+      padding: 1.5rem 1rem;
+    }
+    .blog-content-body {
+      text-align: left;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    .page-hero h1 {
+      font-size: 1.8rem;
+      padding: 0 1rem;
+    }
+  }
+</style>
+<section class="page-hero">
   {% if blog.image %}
     <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="blog-detail-featured-image">
   {% endif %}
   <p class="kicker">{{ blog.category }}</p>
   <h1>{{ blog.title }}</h1>
-  <p class="hero-text">By {{ blog.author }} • {{ blog.date.strftime('%b %d, %Y') }}</p>
+  <p class="hero-text">By {{ blog.author }} • {{ blog.date.strftime('%b %d, %Y') if blog.date and blog.date.strftime else blog.date }}</p>
 </section>
 
 <section class="blog-detail-content">
@@ -29,7 +74,7 @@
       <div class="comment-item">
         <strong>{{ comment.user.username }}</strong>
         <p>{{ comment.text }}</p>
-        <small style="color: var(--text-secondary);">{{ comment.created_at.strftime('%b %d, %I:%M %p') }}</small>
+        <small style="color: var(--text-secondary);">{{ comment.created_at.strftime('%b %d, %I:%M %p') if comment.created_at and comment.created_at.strftime else comment.created_at }}</small>
       </div>
     {% else %}
       <p class="no-comments">No comments yet. Be the first to share your thoughts!</p>
